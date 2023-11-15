@@ -2,7 +2,6 @@ package br.com.fiap.MaeConecta.api;
 
 import br.com.fiap.MaeConecta.dto.form.ProcedimentoFormDTO;
 import br.com.fiap.MaeConecta.dto.response.ProcedimentoResponseDTO;
-import br.com.fiap.MaeConecta.model.Procedimento;
 import br.com.fiap.MaeConecta.service.ProcedimentoService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -23,11 +22,12 @@ public class ProcedimentoController {
 
 	Logger log = LoggerFactory.getLogger(ProcedimentoController.class);
 
-	@PostMapping
-	public ResponseEntity<ProcedimentoResponseDTO> salvar(@RequestBody @Valid Procedimento procedimento) {
+	@PostMapping("{id}")
+	public ResponseEntity<ProcedimentoResponseDTO> salvar(@PathVariable Long id,
+														  @RequestBody @Valid ProcedimentoFormDTO procedimentoFormDTO) {
 		log.info("Salvando procedimento");
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(procedimentoService.salvar(procedimento));
+		return ResponseEntity.status(HttpStatus.CREATED).body(procedimentoService.salvar(id, procedimentoFormDTO));
 	}
 
 	@GetMapping("{id}")
@@ -58,6 +58,13 @@ public class ProcedimentoController {
 		log.info("Buscando todos os procedimentos");
 
 		return ResponseEntity.ok(procedimentoService.buscarTodos());
+	}
+
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<ProcedimentoResponseDTO>> buscarTodos(@PathVariable Long id) {
+		log.info("Buscando todos os procedimentos do usuário");
+
+		return ResponseEntity.ok(procedimentoService.buscarTodos(id));
 	}
 
 }

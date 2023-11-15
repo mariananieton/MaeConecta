@@ -27,4 +27,6 @@ public class OcorrenciaGestacionalFormDTO {
 	@Size(min = 3, max = 200)
 	private String descricao;
 
+	private Long procedimentoId;
+
 }

@@ -4,7 +4,9 @@ import br.com.fiap.MaeConecta.dto.form.ProcedimentoFormDTO;
 import br.com.fiap.MaeConecta.dto.response.ProcedimentoResponseDTO;
 import br.com.fiap.MaeConecta.exception.RestNotFoundException;
 import br.com.fiap.MaeConecta.model.Procedimento;
+import br.com.fiap.MaeConecta.model.Usuario;
 import br.com.fiap.MaeConecta.repository.ProcedimentoRepository;
+import br.com.fiap.MaeConecta.repository.UsuarioRepository;
 import br.com.fiap.MaeConecta.service.ProcedimentoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,21 @@ public class ProcedimentoServiceImpl implements ProcedimentoService {
 	ProcedimentoRepository procedimentoRepository;
 
 	@Autowired
+	UsuarioRepository usuarioRepository;
+
+	@Autowired
 	ModelMapper modelMapper;
 
 	@Override
-	public ProcedimentoResponseDTO salvar(Procedimento procedimento) {
+	public ProcedimentoResponseDTO salvar(Long id, ProcedimentoFormDTO procedimentoFormDTO) {
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new RestNotFoundException("Usuário não encontrado"));
+
+		Procedimento procedimento = convertToEntity(procedimentoFormDTO);
+		procedimento.setTipoProcedimento(procedimentoFormDTO.getTipoProcedimento());
+		procedimento.setDataProcedimento(procedimentoFormDTO.getDataProcedimento());
+		procedimento.setEspecialidade(procedimentoFormDTO.getEspecialidade());
+		procedimento.setUsuario(usuario);
 		procedimentoRepository.save(procedimento);
 
 		return convertToProcedimentoResponse(procedimento);
@@ -65,8 +78,25 @@ public class ProcedimentoServiceImpl implements ProcedimentoService {
 		return procedimentosResponseDTO;
 	}
 
+	@Override
+	public List<ProcedimentoResponseDTO> buscarTodos(Long userId) {
+		List<Procedimento> procedimentos = procedimentoRepository.findAllByUsuarioId(userId);
+		List<ProcedimentoResponseDTO> procedimentosResponseDTO = new ArrayList<>();
+
+		for (Procedimento procedimento : procedimentos) {
+			ProcedimentoResponseDTO procedimentoResponseDTO = convertToProcedimentoResponse(procedimento);
+			procedimentosResponseDTO.add(procedimentoResponseDTO);
+		}
+
+		return procedimentosResponseDTO;
+	}
+
 	private ProcedimentoResponseDTO convertToProcedimentoResponse(Procedimento procedimento) {
 		return modelMapper.map(procedimento, ProcedimentoResponseDTO.class);
+	}
+
+	private Procedimento convertToEntity(ProcedimentoFormDTO procedimentoFormDTO) {
+		return modelMapper.map(procedimentoFormDTO, Procedimento.class);
 	}
 
 	public Procedimento getProcedimento(Long id) {

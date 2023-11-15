@@ -2,13 +2,12 @@ package br.com.fiap.MaeConecta.service;
 
 import br.com.fiap.MaeConecta.dto.form.OcorrenciaGestacionalFormDTO;
 import br.com.fiap.MaeConecta.dto.response.OcorrenciaGestacionalResponseDTO;
-import br.com.fiap.MaeConecta.model.OcorrenciaGestacional;
 
 import java.util.List;
 
 public interface OcorrenciaGestacionalService {
 
-	OcorrenciaGestacionalResponseDTO salvar(OcorrenciaGestacional ocorrenciaGestacional);
+	OcorrenciaGestacionalResponseDTO salvar(Long id, OcorrenciaGestacionalFormDTO ocorrenciaGestacionalFormDTO);
 
 	OcorrenciaGestacionalResponseDTO buscarPorId(Long id);
 
@@ -17,5 +16,7 @@ public interface OcorrenciaGestacionalService {
 	void deletarPorId(Long id);
 
 	List<OcorrenciaGestacionalResponseDTO> buscarTodos();
+
+	List<OcorrenciaGestacionalResponseDTO> buscarTodos(Long id);
 
 }

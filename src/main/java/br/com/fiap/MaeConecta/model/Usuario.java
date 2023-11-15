@@ -49,6 +49,7 @@ public class Usuario {
 	private Integer semanasGestacao;
 
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ID_LOGIN")
 	private Login login;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)

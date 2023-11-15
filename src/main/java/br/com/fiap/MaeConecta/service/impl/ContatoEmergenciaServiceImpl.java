@@ -4,7 +4,9 @@ import br.com.fiap.MaeConecta.dto.form.ContatoEmergenciaFormDTO;
 import br.com.fiap.MaeConecta.dto.response.ContatoEmergenciaResponseDTO;
 import br.com.fiap.MaeConecta.exception.RestNotFoundException;
 import br.com.fiap.MaeConecta.model.ContatoEmergencia;
+import br.com.fiap.MaeConecta.model.Usuario;
 import br.com.fiap.MaeConecta.repository.ContatoEmergenciaRepository;
+import br.com.fiap.MaeConecta.repository.UsuarioRepository;
 import br.com.fiap.MaeConecta.service.ContatoEmergenciaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,22 @@ public class ContatoEmergenciaServiceImpl implements ContatoEmergenciaService {
 	ContatoEmergenciaRepository contatoEmergenciaRepository;
 
 	@Autowired
+	UsuarioRepository usuarioRepository;
+
+	@Autowired
 	ModelMapper modelMapper;
 
 	@Override
-	public ContatoEmergenciaResponseDTO salvar(ContatoEmergencia contatoEmergencia) {
+	public ContatoEmergenciaResponseDTO salvar(Long id, ContatoEmergenciaFormDTO contatoEmergenciaFormDTO) {
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new RestNotFoundException("Usuário não encontrado"));
+
+		ContatoEmergencia contatoEmergencia = convertToEntity(contatoEmergenciaFormDTO);
+		contatoEmergencia.setNome(contatoEmergenciaFormDTO.getNome());
+		contatoEmergencia.setTelefone(contatoEmergenciaFormDTO.getTelefone());
+		contatoEmergencia.setRelacionamento(contatoEmergenciaFormDTO.getRelacionamento());
+		contatoEmergencia.setUsuario(usuario);
+
 		contatoEmergenciaRepository.save(contatoEmergencia);
 
 		return convertToContatoEmergenciaResponse(contatoEmergencia);
@@ -65,8 +79,25 @@ public class ContatoEmergenciaServiceImpl implements ContatoEmergenciaService {
 		return contatosEmergenciaResponseDTO;
 	}
 
+	@Override
+	public List<ContatoEmergenciaResponseDTO> buscarTodos(Long userId) {
+		List<ContatoEmergencia> contatosEmergencia = contatoEmergenciaRepository.findAllByUsuarioId(userId);
+		List<ContatoEmergenciaResponseDTO> contatosEmergenciaResponseDTO = new ArrayList<>();
+
+		for (ContatoEmergencia contatoEmergencia : contatosEmergencia) {
+			ContatoEmergenciaResponseDTO contatoEmergenciaResponseDTO = convertToContatoEmergenciaResponse(contatoEmergencia);
+			contatosEmergenciaResponseDTO.add(contatoEmergenciaResponseDTO);
+		}
+
+		return contatosEmergenciaResponseDTO;
+	}
+
 	private ContatoEmergenciaResponseDTO convertToContatoEmergenciaResponse(ContatoEmergencia contatoEmergencia) {
 		return modelMapper.map(contatoEmergencia, ContatoEmergenciaResponseDTO.class);
+	}
+
+	private ContatoEmergencia convertToEntity(ContatoEmergenciaFormDTO contatoEmergenciaFormDTO) {
+		return modelMapper.map(contatoEmergenciaFormDTO, ContatoEmergencia.class);
 	}
 
 	public ContatoEmergencia getContatoEmergencia(Long id) {

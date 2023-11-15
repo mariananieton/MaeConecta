@@ -2,13 +2,12 @@ package br.com.fiap.MaeConecta.service;
 
 import br.com.fiap.MaeConecta.dto.form.ProcedimentoFormDTO;
 import br.com.fiap.MaeConecta.dto.response.ProcedimentoResponseDTO;
-import br.com.fiap.MaeConecta.model.Procedimento;
 
 import java.util.List;
 
 public interface ProcedimentoService {
 
-	ProcedimentoResponseDTO salvar(Procedimento procedimento);
+	ProcedimentoResponseDTO salvar(Long id, ProcedimentoFormDTO procedimentoFormDTO);
 
 	ProcedimentoResponseDTO buscarPorId(Long id);
 
@@ -17,5 +16,7 @@ public interface ProcedimentoService {
 	void deletarPorId(Long id);
 
 	List<ProcedimentoResponseDTO> buscarTodos();
+
+	List<ProcedimentoResponseDTO> buscarTodos(Long id);
 
 }

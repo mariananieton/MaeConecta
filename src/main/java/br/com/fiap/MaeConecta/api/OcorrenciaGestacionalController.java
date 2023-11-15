@@ -2,7 +2,6 @@ package br.com.fiap.MaeConecta.api;
 
 import br.com.fiap.MaeConecta.dto.form.OcorrenciaGestacionalFormDTO;
 import br.com.fiap.MaeConecta.dto.response.OcorrenciaGestacionalResponseDTO;
-import br.com.fiap.MaeConecta.model.OcorrenciaGestacional;
 import br.com.fiap.MaeConecta.service.OcorrenciaGestacionalService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -23,11 +22,12 @@ public class OcorrenciaGestacionalController {
 
 	Logger log = LoggerFactory.getLogger(OcorrenciaGestacionalController.class);
 
-	@PostMapping
-	public ResponseEntity<OcorrenciaGestacionalResponseDTO> salvar(@RequestBody @Valid OcorrenciaGestacional ocorrenciaGestacional) {
+	@PostMapping("{id}")
+	public ResponseEntity<OcorrenciaGestacionalResponseDTO> salvar(@PathVariable Long id,
+																   @RequestBody @Valid OcorrenciaGestacionalFormDTO ocorrenciaGestacionalFormDTO) {
 		log.info("Salvando ocorrência gestacional");
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(ocorrenciaGestacionalService.salvar(ocorrenciaGestacional));
+		return ResponseEntity.status(HttpStatus.CREATED).body(ocorrenciaGestacionalService.salvar(id, ocorrenciaGestacionalFormDTO));
 	}
 
 	@GetMapping("{id}")
@@ -58,6 +58,13 @@ public class OcorrenciaGestacionalController {
 		log.info("Buscando todas as ocorrências gestacionais");
 
 		return ResponseEntity.ok(ocorrenciaGestacionalService.buscarTodos());
+	}
+
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<OcorrenciaGestacionalResponseDTO>> buscarTodos(@PathVariable Long id) {
+		log.info("Buscando todas as ocorrências gestacionais do usuário");
+
+		return ResponseEntity.ok(ocorrenciaGestacionalService.buscarTodos(id));
 	}
 
 }

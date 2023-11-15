@@ -2,7 +2,6 @@ package br.com.fiap.MaeConecta.api;
 
 import br.com.fiap.MaeConecta.dto.form.ContatoEmergenciaFormDTO;
 import br.com.fiap.MaeConecta.dto.response.ContatoEmergenciaResponseDTO;
-import br.com.fiap.MaeConecta.model.ContatoEmergencia;
 import br.com.fiap.MaeConecta.service.ContatoEmergenciaService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -23,11 +22,12 @@ public class ContatoEmergenciaController {
 
 	Logger log = LoggerFactory.getLogger(ContatoEmergenciaController.class);
 
-	@PostMapping
-	public ResponseEntity<ContatoEmergenciaResponseDTO> salvar(@RequestBody @Valid ContatoEmergencia contatoEmergencia) {
+	@PostMapping("{id}")
+	public ResponseEntity<ContatoEmergenciaResponseDTO> salvar(@PathVariable Long id,
+															   @RequestBody @Valid ContatoEmergenciaFormDTO contatoEmergenciaFormDTO) {
 		log.info("Salvando contato de emergência");
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(contatoEmergenciaService.salvar(contatoEmergencia));
+		return ResponseEntity.status(HttpStatus.CREATED).body(contatoEmergenciaService.salvar(id, contatoEmergenciaFormDTO));
 	}
 
 	@GetMapping("{id}")
@@ -58,6 +58,13 @@ public class ContatoEmergenciaController {
 		log.info("Buscando todos os contatos de emergência");
 
 		return ResponseEntity.ok(contatoEmergenciaService.buscarTodos());
+	}
+
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<ContatoEmergenciaResponseDTO>> buscarTodos(@PathVariable Long id) {
+		log.info("Buscando todos os contatos de emergência do usuário");
+
+		return ResponseEntity.ok(contatoEmergenciaService.buscarTodos(id));
 	}
 
 }
