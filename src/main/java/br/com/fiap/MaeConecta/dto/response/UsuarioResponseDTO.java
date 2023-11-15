@@ -1,4 +1,4 @@
-package br.com.fiap.MaeConecta.dto.resposta;
+package br.com.fiap.MaeConecta.dto.response;
 
 import br.com.fiap.MaeConecta.model.TipoSanguineo;
 import jakarta.persistence.EnumType;

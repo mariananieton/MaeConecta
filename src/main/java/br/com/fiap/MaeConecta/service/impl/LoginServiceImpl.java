@@ -1,7 +1,7 @@
 package br.com.fiap.MaeConecta.service.impl;
 
 import br.com.fiap.MaeConecta.dto.form.LoginFormDTO;
-import br.com.fiap.MaeConecta.dto.resposta.LoginResponseDTO;
+import br.com.fiap.MaeConecta.dto.response.LoginResponseDTO;
 import br.com.fiap.MaeConecta.exception.RestNotFoundException;
 import br.com.fiap.MaeConecta.model.Login;
 import br.com.fiap.MaeConecta.repository.LoginRepository;

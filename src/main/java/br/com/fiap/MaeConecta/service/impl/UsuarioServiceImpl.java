@@ -1,7 +1,7 @@
 package br.com.fiap.MaeConecta.service.impl;
 
 import br.com.fiap.MaeConecta.dto.form.UsuarioFormDTO;
-import br.com.fiap.MaeConecta.dto.resposta.UsuarioResponseDTO;
+import br.com.fiap.MaeConecta.dto.response.UsuarioResponseDTO;
 import br.com.fiap.MaeConecta.exception.RestNotFoundException;
 import br.com.fiap.MaeConecta.model.Usuario;
 import br.com.fiap.MaeConecta.repository.UsuarioRepository;

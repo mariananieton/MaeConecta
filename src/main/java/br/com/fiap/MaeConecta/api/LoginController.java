@@ -1,7 +1,7 @@
 package br.com.fiap.MaeConecta.api;
 
 import br.com.fiap.MaeConecta.dto.form.LoginFormDTO;
-import br.com.fiap.MaeConecta.dto.resposta.LoginResponseDTO;
+import br.com.fiap.MaeConecta.dto.response.LoginResponseDTO;
 import br.com.fiap.MaeConecta.model.security.Credencial;
 import br.com.fiap.MaeConecta.service.LoginService;
 import br.com.fiap.MaeConecta.service.security.TokenService;
