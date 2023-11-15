@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "T_MC_CONTATO")
+@Entity(name = "T_MC_CONTATOS")
 public class ContatoEmergencia {
 
 	@Id
@@ -26,13 +26,13 @@ public class ContatoEmergencia {
 	private String nome;
 
 	@NotBlank
-	@Size(min = 3, max = 100)
-	@Column(name = "NM_RELACIONAMENTO")
-	private String relacionamento;
-
-	@NotBlank
 	@Column(name = "DS_TELEFONE")
 	private String telefone;
+
+	@NotBlank
+	@Size(min = 3, max = 100)
+	@Column(name = "DS_RELACIONAMENTO")
+	private String relacionamento;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ID_USUARIO")

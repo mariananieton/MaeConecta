@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "T_MC_OCORRENCIA")
+@Entity(name = "T_MC_OCORRENCIAS")
 public class OcorrenciaGestacional {
 
 	@Id
@@ -25,7 +25,7 @@ public class OcorrenciaGestacional {
 
 	@NotBlank
 	@Size(min = 3)
-	@Column(name = "NM_TITULO")
+	@Column(name = "DS_TITULO")
 	private String titulo;
 
 	@NotNull
@@ -33,13 +33,16 @@ public class OcorrenciaGestacional {
 	private LocalDate dataOcorrencia;
 
 	@NotBlank
-	@Size(min = 3)
-	@Column(name = "DS_DESCRICAO")
+	@Size(min = 3, max = 200)
+	@Column(name = "DS_OCORRENCIA")
 	private String descricao;
 
-	//TODO relacionamento
-	// private Procedimento procedimento;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ID_USUARIO")
+	private Usuario usuario;
 
-	//TODO relacionamento
-	// private Usuario usuario;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ID_PROCEDIMENTO")
+	private Procedimento procedimento;
+
 }

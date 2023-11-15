@@ -36,8 +36,8 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public LoginResponseDTO atualizar(Long id, LoginFormDTO loginFormDTO) {
 		var login = buscarPorId(id);
-		login.setEmail(login.getEmail());
-		login.setSenha(encoder.encode(login.getSenha()));
+		login.setEmail(loginFormDTO.getEmail());
+		login.setSenha(encoder.encode(loginFormDTO.getSenha()));
 
 		return convertToLoginResponse(salvar(login));
 	}

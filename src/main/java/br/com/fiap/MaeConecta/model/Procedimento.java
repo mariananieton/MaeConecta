@@ -8,12 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "T_MC_PROCEDIMENTO")
+@Entity(name = "T_MC_PROCEDIMENTOS")
 public class Procedimento {
 
 	@Id
@@ -22,21 +23,24 @@ public class Procedimento {
 	private Long id;
 
 	@NotNull
-	@Enumerated(EnumType.STRING)
-	private TipoProcedimento tipoProcedimento;
-
-	@NotNull
 	@Column(name = "DT_PROCEDIMENTO")
 	private LocalDate dataProcedimento;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
+	@Column(name = "DS_TIPO_PROCEDIMENTO")
+	private TipoProcedimento tipoProcedimento;
+
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "DS_ESPECIALIDADE")
 	private Especialidade especialidade;
 
-	//TODO relacionamento
-	// private Usuario usuario;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ID_USUARIO")
+	private Usuario usuario;
 
-	//TODO relacionamento
-	// private OcorrenciaGestacional ocorrenciaGestacional;
+	@OneToMany(mappedBy = "procedimento", cascade = CascadeType.ALL)
+	private List<OcorrenciaGestacional> ocorrenciaGestacional;
 
 }

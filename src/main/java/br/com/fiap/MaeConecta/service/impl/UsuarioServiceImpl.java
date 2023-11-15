@@ -33,11 +33,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public UsuarioResponseDTO atualizar(Long id, UsuarioFormDTO usuarioFormDTO) {
 		Usuario usuario = usuarioRepository.findById(id).get();
 		usuario.setNome(usuarioFormDTO.getNome());
-		usuario.setIdade(usuarioFormDTO.getIdade());
-		usuario.setCpf(usuarioFormDTO.getCpf());
-		usuario.setSemanasGestacao(usuarioFormDTO.getSemanasGestacao());
+		usuario.setDataNascimento(usuarioFormDTO.getDataNascimento());
 		usuario.setDataCadastro(usuarioFormDTO.getDataCadastro());
 		usuario.setTipoSanguineo(usuarioFormDTO.getTipoSanguineo());
+		usuario.setSemanasGestacao(usuarioFormDTO.getSemanasGestacao());
 
 		usuarioRepository.save(usuario);
 

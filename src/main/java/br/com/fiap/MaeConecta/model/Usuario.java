@@ -31,18 +31,8 @@ public class Usuario {
 	private String nome;
 
 	@NotNull
-	@Positive
-	@Column(name = "NR_IDADE")
-	private Integer idade;
-
-	@NotBlank
-	@Column(name = "DS_CPF")
-	private String cpf;
-
-	@NotNull
-	@Positive
-	@Column(name = "NR_SEMANAS")
-	private Integer semanasGestacao;
+	@Column(name = "DT_NASCIMENTO")
+	private LocalDate dataNascimento;
 
 	@NotNull
 	@Column(name = "DT_CADASTRO")
@@ -50,7 +40,13 @@ public class Usuario {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
+	@Column(name = "DS_TIPO_SANGUINEO")
 	private TipoSanguineo tipoSanguineo;
+
+	@NotNull
+	@Positive
+	@Column(name = "DS_SEMANAS")
+	private Integer semanasGestacao;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Login login;
@@ -58,9 +54,9 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<ContatoEmergencia> contatosEmergencia;
 
-	//TODO relacionamento
-	// private List<Procedimento> procedimentos;
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Procedimento> procedimentos;
 
-	//TODO relacionamento
-	// private List<OcorrenciaGestacional> ocorrenciasGestacionais;
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<OcorrenciaGestacional> ocorrenciasGestacionais;
 }

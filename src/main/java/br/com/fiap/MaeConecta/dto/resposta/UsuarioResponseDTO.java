@@ -28,15 +28,7 @@ public class UsuarioResponseDTO {
 	private String nome;
 
 	@NotNull
-	@Positive
-	private Integer idade;
-
-	@NotBlank
-	private String cpf;
-
-	@NotNull
-	@Positive
-	private Integer semanasGestacao;
+	private LocalDate dataNascimento;
 
 	@NotNull
 	private LocalDate dataCadastro;
@@ -44,4 +36,9 @@ public class UsuarioResponseDTO {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private TipoSanguineo tipoSanguineo;
+
+	@NotNull
+	@Positive
+	private Integer semanasGestacao;
+
 }
