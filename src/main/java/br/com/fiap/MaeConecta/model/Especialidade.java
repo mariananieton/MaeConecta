@@ -33,5 +33,14 @@ public enum Especialidade {
 	public String getDescricao() {
 		return descricao;
 	}
+
+	public static Especialidade fromString(String nome) {
+		for (Especialidade especialidade : Especialidade.values()) {
+			if (especialidade.nome.equalsIgnoreCase(nome)) {
+				return especialidade;
+			}
+		}
+		throw new IllegalArgumentException("Especialidade inválida: " + nome);
+	}
 }
 

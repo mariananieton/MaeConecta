@@ -19,5 +19,14 @@ public enum TipoSanguineo {
 	public String getNome() {
 		return nome;
 	}
+
+	public static TipoSanguineo fromString(String nome) {
+		for (TipoSanguineo tipoSanguineo : TipoSanguineo.values()) {
+			if (tipoSanguineo.nome.equalsIgnoreCase(nome)) {
+				return tipoSanguineo;
+			}
+		}
+		throw new IllegalArgumentException("Tipo sanguíneo inválido: " + nome);
+	}
 }
 

@@ -2,9 +2,6 @@ package br.com.fiap.MaeConecta.api;
 
 import br.com.fiap.MaeConecta.dto.form.UsuarioFormDTO;
 import br.com.fiap.MaeConecta.dto.response.UsuarioResponseDTO;
-import br.com.fiap.MaeConecta.model.UsuarioLogin;
-import br.com.fiap.MaeConecta.service.LoginService;
-import br.com.fiap.MaeConecta.service.UsuarioLoginService;
 import br.com.fiap.MaeConecta.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -21,19 +18,13 @@ public class UsuarioController {
 	@Autowired
 	UsuarioService usuarioService;
 
-	@Autowired
-	LoginService loginService;
-
-	@Autowired
-	UsuarioLoginService usuarioLoginService;
-
 	Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
 	@PostMapping
-	public ResponseEntity<UsuarioResponseDTO> salvar(@RequestBody @Valid UsuarioLogin usuarioLogin) {
+	public ResponseEntity<UsuarioResponseDTO> salvar(@RequestBody @Valid UsuarioFormDTO usuarioFormDTO) {
 		log.info("Salvando usuário");
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioLoginService.salvar(usuarioLogin));
+		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.salvar(usuarioFormDTO));
 	}
 
 	@GetMapping("{id}")

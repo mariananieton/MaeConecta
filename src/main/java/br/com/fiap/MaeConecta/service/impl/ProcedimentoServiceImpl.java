@@ -3,7 +3,9 @@ package br.com.fiap.MaeConecta.service.impl;
 import br.com.fiap.MaeConecta.dto.form.ProcedimentoFormDTO;
 import br.com.fiap.MaeConecta.dto.response.ProcedimentoResponseDTO;
 import br.com.fiap.MaeConecta.exception.RestNotFoundException;
+import br.com.fiap.MaeConecta.model.Especialidade;
 import br.com.fiap.MaeConecta.model.Procedimento;
+import br.com.fiap.MaeConecta.model.TipoProcedimento;
 import br.com.fiap.MaeConecta.model.Usuario;
 import br.com.fiap.MaeConecta.repository.ProcedimentoRepository;
 import br.com.fiap.MaeConecta.repository.UsuarioRepository;
@@ -33,9 +35,9 @@ public class ProcedimentoServiceImpl implements ProcedimentoService {
 				.orElseThrow(() -> new RestNotFoundException("Usuário não encontrado"));
 
 		Procedimento procedimento = convertToEntity(procedimentoFormDTO);
-		procedimento.setTipoProcedimento(procedimentoFormDTO.getTipoProcedimento());
+		procedimento.setTipoProcedimento(TipoProcedimento.fromString(procedimentoFormDTO.getTipoProcedimento()));
 		procedimento.setDataProcedimento(procedimentoFormDTO.getDataProcedimento());
-		procedimento.setEspecialidade(procedimentoFormDTO.getEspecialidade());
+		procedimento.setEspecialidade(Especialidade.fromString(procedimentoFormDTO.getEspecialidade()));
 		procedimento.setUsuario(usuario);
 		procedimentoRepository.save(procedimento);
 
@@ -51,8 +53,8 @@ public class ProcedimentoServiceImpl implements ProcedimentoService {
 	public ProcedimentoResponseDTO atualizar(Long id, ProcedimentoFormDTO procedimentoFormDTO) {
 		Procedimento procedimento = procedimentoRepository.findById(id).get();
 		procedimento.setDataProcedimento(procedimentoFormDTO.getDataProcedimento());
-		procedimento.setTipoProcedimento(procedimentoFormDTO.getTipoProcedimento());
-		procedimento.setEspecialidade(procedimentoFormDTO.getEspecialidade());
+		procedimento.setTipoProcedimento(TipoProcedimento.fromString(procedimentoFormDTO.getTipoProcedimento()));
+		procedimento.setEspecialidade(Especialidade.fromString(procedimentoFormDTO.getEspecialidade()));
 
 		procedimentoRepository.save(procedimento);
 

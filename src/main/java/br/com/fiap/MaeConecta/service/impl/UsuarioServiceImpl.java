@@ -1,14 +1,21 @@
 package br.com.fiap.MaeConecta.service.impl;
 
+import br.com.fiap.MaeConecta.dto.form.LoginFormDTO;
 import br.com.fiap.MaeConecta.dto.form.UsuarioFormDTO;
 import br.com.fiap.MaeConecta.dto.response.UsuarioResponseDTO;
 import br.com.fiap.MaeConecta.exception.RestNotFoundException;
+import br.com.fiap.MaeConecta.model.Login;
+import br.com.fiap.MaeConecta.model.TipoSanguineo;
 import br.com.fiap.MaeConecta.model.Usuario;
 import br.com.fiap.MaeConecta.repository.UsuarioRepository;
+import br.com.fiap.MaeConecta.service.LoginService;
 import br.com.fiap.MaeConecta.service.UsuarioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -17,11 +24,33 @@ public class UsuarioServiceImpl implements UsuarioService {
 	UsuarioRepository usuarioRepository;
 
 	@Autowired
+	LoginService loginService;
+
+	@Autowired
+	PasswordEncoder encoder;
+
+	@Autowired
 	ModelMapper modelMapper;
 
 	@Override
-	public Usuario salvar(Usuario usuario) {
-		return usuarioRepository.save(usuario);
+	public UsuarioResponseDTO salvar(UsuarioFormDTO usuarioFormDTO) {
+		Usuario usuario = convertToEntity(usuarioFormDTO);
+		usuario.setNome(usuarioFormDTO.getNome());
+		usuario.setDataNascimento(usuarioFormDTO.getDataNascimento());
+		usuario.setDataCadastro(LocalDate.now());
+		usuario.setTipoSanguineo(TipoSanguineo.fromString(usuarioFormDTO.getTipoSanguineo()));
+		usuario.setSemanasGestacao(usuarioFormDTO.getSemanasGestacao());
+
+		LoginFormDTO loginFormDTO = usuarioFormDTO.getLoginFormDTO();
+		loginFormDTO.setSenha(encoder.encode(loginFormDTO.getSenha()));
+
+		Login login = convertToEntity(loginFormDTO);
+		loginService.salvar(login);
+
+		usuario.setLogin(login);
+		usuarioRepository.save(usuario);
+
+		return convertToUsuarioResponse(usuario);
 	}
 
 	@Override
@@ -34,8 +63,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		Usuario usuario = usuarioRepository.findById(id).get();
 		usuario.setNome(usuarioFormDTO.getNome());
 		usuario.setDataNascimento(usuarioFormDTO.getDataNascimento());
-		usuario.setDataCadastro(usuarioFormDTO.getDataCadastro());
-		usuario.setTipoSanguineo(usuarioFormDTO.getTipoSanguineo());
+		usuario.setTipoSanguineo(TipoSanguineo.fromString(usuarioFormDTO.getTipoSanguineo()));
 		usuario.setSemanasGestacao(usuarioFormDTO.getSemanasGestacao());
 
 		usuarioRepository.save(usuario);
@@ -52,6 +80,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	private UsuarioResponseDTO convertToUsuarioResponse(Usuario usuario) {
 		return modelMapper.map(usuario, UsuarioResponseDTO.class);
+	}
+
+	private Usuario convertToEntity(UsuarioFormDTO usuarioFormDTO) {
+		return modelMapper.map(usuarioFormDTO, Usuario.class);
+	}
+
+	private Login convertToEntity(LoginFormDTO loginFormDTO) {
+		return modelMapper.map(loginFormDTO, Login.class);
 	}
 
 	public Usuario getUsuario(Long id) {
