@@ -96,6 +96,11 @@ public class OcorrenciaGestacionalServiceImpl implements OcorrenciaGestacionalSe
 
 		for (OcorrenciaGestacional ocorrenciaGestacional : ocorrenciasGestacionais) {
 			OcorrenciaGestacionalResponseDTO ocorrenciaGestacionalResponseDTO = convertToOcorrenciaGestacionalResponse(ocorrenciaGestacional);
+
+			if (ocorrenciaGestacional.getProcedimento() != null) {
+				ocorrenciaGestacionalResponseDTO.setProcedimentoId(ocorrenciaGestacional.getProcedimento().getId());
+			}
+
 			ocorrenciasGestacionaisResponseDTO.add(ocorrenciaGestacionalResponseDTO);
 		}
 
@@ -103,7 +108,13 @@ public class OcorrenciaGestacionalServiceImpl implements OcorrenciaGestacionalSe
 	}
 
 	private OcorrenciaGestacionalResponseDTO convertToOcorrenciaGestacionalResponse(OcorrenciaGestacional ocorrenciaGestacional) {
-		return modelMapper.map(ocorrenciaGestacional, OcorrenciaGestacionalResponseDTO.class);
+		OcorrenciaGestacionalResponseDTO responseDTO = modelMapper.map(ocorrenciaGestacional, OcorrenciaGestacionalResponseDTO.class);
+
+		if (ocorrenciaGestacional.getProcedimento() != null) {
+			responseDTO.setProcedimentoId(ocorrenciaGestacional.getProcedimento().getId());
+		}
+
+		return responseDTO;
 	}
 
 	private OcorrenciaGestacional convertToEntity(OcorrenciaGestacionalFormDTO ocorrenciaGestacionalFormDTO) {

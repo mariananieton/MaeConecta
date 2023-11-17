@@ -57,7 +57,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public UsuarioResponseDTO buscarPorId(Long id) {
 		Usuario usuario = getUsuario(id);
 		UsuarioResponseDTO responseDTO = convertToUsuarioResponse(usuario);
-		responseDTO.setTipoSanguineo(usuario.getTipoSanguineo()); // Define o nome do enum
+		responseDTO.setTipoSanguineo(usuario.getTipoSanguineo());
 		return responseDTO;
 	}
 
