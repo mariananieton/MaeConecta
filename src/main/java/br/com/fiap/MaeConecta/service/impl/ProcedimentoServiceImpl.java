@@ -74,6 +74,7 @@ public class ProcedimentoServiceImpl implements ProcedimentoService {
 
 		for (Procedimento procedimento : procedimentos) {
 			ProcedimentoResponseDTO procedimentoResponseDTO = convertToProcedimentoResponse(procedimento);
+			procedimentoResponseDTO.setTipoProcedimento(procedimento.getTipoProcedimento());
 			procedimentosResponseDTO.add(procedimentoResponseDTO);
 		}
 
@@ -87,6 +88,7 @@ public class ProcedimentoServiceImpl implements ProcedimentoService {
 
 		for (Procedimento procedimento : procedimentos) {
 			ProcedimentoResponseDTO procedimentoResponseDTO = convertToProcedimentoResponse(procedimento);
+			procedimentoResponseDTO.setTipoProcedimento(procedimento.getTipoProcedimento());
 			procedimentosResponseDTO.add(procedimentoResponseDTO);
 		}
 

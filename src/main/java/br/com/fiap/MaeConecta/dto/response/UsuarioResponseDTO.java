@@ -1,8 +1,6 @@
 package br.com.fiap.MaeConecta.dto.response;
 
 import br.com.fiap.MaeConecta.model.TipoSanguineo;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -33,12 +31,14 @@ public class UsuarioResponseDTO {
 	@NotNull
 	private LocalDate dataCadastro;
 
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private TipoSanguineo tipoSanguineo;
+	@NotBlank
+	private String tipoSanguineo;
 
 	@NotNull
 	@Positive
 	private Integer semanasGestacao;
 
+	public void setTipoSanguineo(TipoSanguineo tipoSanguineo) {
+		this.tipoSanguineo = tipoSanguineo.getNome();
+	}
 }

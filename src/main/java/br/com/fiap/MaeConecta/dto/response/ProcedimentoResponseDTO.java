@@ -2,8 +2,7 @@ package br.com.fiap.MaeConecta.dto.response;
 
 import br.com.fiap.MaeConecta.model.Especialidade;
 import br.com.fiap.MaeConecta.model.TipoProcedimento;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,11 +23,17 @@ public class ProcedimentoResponseDTO {
 	@NotNull
 	private LocalDate dataProcedimento;
 
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private TipoProcedimento tipoProcedimento;
+	@NotBlank
+	private String tipoProcedimento;
 
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private Especialidade especialidade;
+	@NotBlank
+	private String especialidade;
+
+	public void setTipoProcedimento(TipoProcedimento tipoProcedimento) {
+		this.tipoProcedimento = tipoProcedimento.getNome();
+	}
+
+	public void setEspecialidade(Especialidade especialidade) {
+		this.especialidade = especialidade.getNome();
+	}
 }

@@ -41,7 +41,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuario.setTipoSanguineo(TipoSanguineo.fromString(usuarioFormDTO.getTipoSanguineo()));
 		usuario.setSemanasGestacao(usuarioFormDTO.getSemanasGestacao());
 
-		LoginFormDTO loginFormDTO = usuarioFormDTO.getLoginFormDTO();
+		LoginFormDTO loginFormDTO = usuarioFormDTO.getLogin();
 		loginFormDTO.setSenha(encoder.encode(loginFormDTO.getSenha()));
 
 		Login login = convertToEntity(loginFormDTO);
@@ -55,7 +55,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public UsuarioResponseDTO buscarPorId(Long id) {
-		return convertToUsuarioResponse(getUsuario(id));
+		Usuario usuario = getUsuario(id);
+		UsuarioResponseDTO responseDTO = convertToUsuarioResponse(usuario);
+		responseDTO.setTipoSanguineo(usuario.getTipoSanguineo()); // Define o nome do enum
+		return responseDTO;
 	}
 
 	@Override
