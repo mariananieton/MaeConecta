@@ -34,7 +34,7 @@ public class ContatoEmergencia {
 	@Column(name = "DS_RELACIONAMENTO")
 	private String relacionamento;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
 

@@ -36,7 +36,7 @@ public class Procedimento {
 	@Column(name = "DS_ESPECIALIDADE")
 	private Especialidade especialidade;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
 

@@ -37,11 +37,11 @@ public class OcorrenciaGestacional {
 	@Column(name = "DS_OCORRENCIA")
 	private String descricao;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "ID_PROCEDIMENTO")
 	private Procedimento procedimento;
 
