@@ -126,7 +126,7 @@ MãeConecta: porque sua jornada é única, e nós estamos aqui para ajudar em ca
     "semanasGestacao": 24,
     "tipoSanguineo":"O-",
     "login": {
-        "email": "bella@swan.com",
+        "email": "bella@gmail.com",
         "senha": "12345678"
     }
 }
