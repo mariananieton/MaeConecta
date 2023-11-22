@@ -214,3 +214,528 @@ MãeConecta: porque sua jornada é única, e nós estamos aqui para ajudar em ca
 | 200 | Usuário salvo
 | 400 | Campos inválidos
 ----
+### Login Controller 
+
+### Login (método de autenticação JWT)
+
+`POST` /api/v1/login - não requer autenticação
+
+**Campos da Requisição**
+
+ **Exemplo de corpo de requisição**
+
+```js
+{
+    "email": "bella@swan.com",
+    "senha": "12345678"
+}
+
+```  
+
+**Resposta da  Requisição** - O Token deve ir em todos os cabeçalhos das demais requisições para autorizar
+
+```js
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJlbWFpbCI6InVzdWFyaW8uZmlhcEBleGFtcGxlLmNvbSIsImlzcyI6IlNldUNhbnRlaXJvIiwiZXhwIjoxNjg2MDczMDYxfQ.jUVpPpyqIarDJVqbC1d60Eqto1newaMgN4o1ELLOhTs",
+    "type": "JWT",
+    "prefix": "Bearer "
+}
+
+```   
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Usuário logado
+| 403 | Não autorizado
+----
+
+### Atualizar login por ID
+
+`PUT` /api/v1/login/{id} - requer autenticação
+
+**Campos da Requisição**
+
+- Login
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|:-------------:|---
+|email | String | sim | o valor do email, único
+|senha | String | sim | a senha não pode ser nula e vai ser criptografada
+
+
+**Exemplo de corpo de requisição**
+
+```js
+{
+    "email": "miles@morales.com",
+    "senha": "senhaFacil000"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Login atualizado 
+| 400 | Campos inválidos
+----
+### Procedimento Controller
+
+### Salvar procedimento
+
+`POST` /api/v1/procedimento/{id} - requer autenticação - {id} refere-se ao id do usuário em que o contato será cadastrado
+
+**Campos da Requisição**
+
+- Procedimento
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|:-------------:|---
+|tipoProcedimento | String | sim | aceita os valores "Exame" ou "Consulta"
+|dataProcedimento | LocalDate | sim | a data do procedimento deve ser no formato YYYY-MM-DD
+|especialidade | Integer | sim | aceita os valores pré-definidos abaixo:
+
+"Obstetrícia",
+"Ginecologia",
+"Pediatria",
+"Neonatologia",
+"Enfermagem Obstétrica",
+"Ultrassonografia",
+"Amnioscopia",
+"Cardiotocografia",
+"Ultrassom Morfológico",
+"Exames de Sangue",
+"Genética",
+"Tocografia",
+"Dosagem de Hormônios",
+"Diabetologia Gestacional",
+"Fisioterapia Obstétrica",
+"Psicologia Perinatal"
+
+**Exemplo de corpo de requisição**
+
+```js
+{
+    "tipoProcedimento": "Consulta",
+    "dataProcedimento": "2023-02-06",
+    "especialidade": "Dosagem de Hormônios"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 201 | Procedimento salvo
+| 400 | Campos inválidos
+----
+
+### Detalhes do Procedimento - buscar por ID 
+
+`GET` /api/v1/procedimento{id} - requer autenticação
+
+**Exemplo de corpo de resposta**
+
+```js
+
+{
+    "id": 1,
+    "dataProcedimento": "2023-02-06",
+    "tipoProcedimento": "Consulta",
+    "especialidade": "Dosagem de Hormônios"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Dados do procedimento retornados
+| 404 | Não existe procedimento com o ID informado
+------------------
+
+### Deleta procedimento por ID 
+
+`DELETE` /api/v1/procedimento{id} - requer autenticação
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 204 | Procedimento deletado
+| 403 | Não autorizado
+----
+### Atualiza procedimento por ID 
+
+`PUT` /api/v1/procedimento/{id} - requer autenticação
+
+**Campos da Requisição**
+
+- Procedimento
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|:-------------:|---
+|tipoProcedimento | String | sim | aceita os valores "Exame" ou "Consulta"
+|dataProcedimento | LocalDate | sim | a data do procedimento deve ser no formato YYYY-MM-DD
+|especialidade | Integer | sim | aceita os valores pré-definidos abaixo:
+
+"Obstetrícia",
+"Ginecologia",
+"Pediatria",
+"Neonatologia",
+"Enfermagem Obstétrica",
+"Ultrassonografia",
+"Amnioscopia",
+"Cardiotocografia",
+"Ultrassom Morfológico",
+"Exames de Sangue",
+"Genética",
+"Tocografia",
+"Dosagem de Hormônios",
+"Diabetologia Gestacional",
+"Fisioterapia Obstétrica",
+"Psicologia Perinatal" 
+
+
+**Exemplo de corpo de requisição**
+
+```js
+{
+    "tipoProcedimento": "Exame",
+    "dataProcedimento": "2023-06-19",
+    "especialidade": "Exames de Sangue"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Procedimento salvo
+| 400 | Campos inválidos
+----
+
+### Buscar todos por ID do usuário
+
+`GET` /api/v1/procedimento/user/{id} - requer autenticação
+
+**Exemplo de corpo de resposta**
+
+```js
+
+[
+    {
+        "id": 1,
+        "dataProcedimento": "2023-06-19",
+        "tipoProcedimento": "Exame",
+        "especialidade": "Exames de Sangue"
+    },
+    {
+        "id": 2,
+        "dataProcedimento": "2023-02-06",
+        "tipoProcedimento": "Consulta",
+        "especialidade": "Dosagem de Hormônios"
+    },
+    {
+        "id": 3,
+        "dataProcedimento": "2023-02-06",
+        "tipoProcedimento": "Exame",
+        "especialidade": "Ultrassom Morfológico"
+    }
+]
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Dados dos procedimentos retornados
+| 404 | Não existem procedimentos com o ID do usuário informado
+------------------
+
+----
+### Ocorrencia Controller
+
+### Salvar ocorrencia
+
+`POST` /api/v1/ocorrencia/{id} - requer autenticação - {id} refere-se ao id do usuário em que a ocorrência será cadastrada
+
+**Campos da Requisição**
+
+- Ocorrencia
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|:-------------:|---
+|titulo | String | sim | o titulo deve ter no mínimo 3 caracteres
+|dataOcorrencia | LocalDate | sim | a data da ocorrencia deve ser no formato YYYY-MM-DD
+|descricao | String | sim | deve ter entre 3 e 200 caracteres
+|procedimentoId | Integer | não | deve ser o id de um procedimento já cadastrado anteriormente
+
+**Exemplo de corpo de requisição**
+
+```js
+{
+    "titulo": "Sangramento",
+    "dataOcorrencia": "2023-11-15",
+    "descricao": "Sangramento vaginal fora do esperado",
+    "procedimentoId": 1
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 201 | Ocorrência salva
+| 400 | Campos inválidos
+----
+
+### Detalhes da Ocorrência - buscar por ID 
+
+`GET` /api/v1/ocorrencia{id} - requer autenticação
+
+**Exemplo de corpo de resposta**
+
+```js
+
+{
+    "id": 1,
+    "titulo": "Sangramento",
+    "dataOcorrencia": "2023-11-15",
+    "descricao": "Sangramento vaginal fora do esperado",
+    "procedimentoId": 1
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Dados da ocorrência retornados
+| 404 | Não existe ocorrência com o ID informado
+------------------
+
+### Deleta ocorrência por ID 
+
+`DELETE` /api/v1/ocorrencia{id} - requer autenticação
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 204 | Ocorrência deletada
+| 403 | Não autorizado
+----
+### Atualiza ocorrência por ID 
+
+`PUT` /api/v1/ocorrencia/{id} - requer autenticação
+
+**Campos da Requisição**
+
+- Ocorrencia
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|:-------------:|---
+|titulo | String | sim | o titulo deve ter no mínimo 3 caracteres
+|dataOcorrencia | LocalDate | sim | a data da ocorrencia deve ser no formato YYYY-MM-DD
+|descricao | String | sim | deve ter entre 3 e 200 caracteres
+
+**Exemplo de corpo de requisição**
+
+```js
+{
+    "titulo": "Dor de cabeça",
+    "dataOcorrencia": "2023-07-02",
+    "descricao": "Enxaqueca"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Ocorrência salva
+| 400 | Campos inválidos
+----
+
+### Buscar todas por ID do usuário
+
+`GET` /api/v1/ocorrencia/user/{id} - requer autenticação
+
+**Exemplo de corpo de resposta**
+
+```js
+
+[
+    {
+        "id": 1,
+        "titulo": "Dor de cabeça",
+        "dataOcorrencia": "2023-07-02",
+        "descricao": "Enxaqueca",
+        "procedimentoId": 1
+    },
+    {
+        "id": 2,
+        "titulo": "Sangramento",
+        "dataOcorrencia": "2023-11-15",
+        "descricao": "Sangramento vaginal fora do esperado",
+        "procedimentoId": 2
+    }
+]
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Dados das ocorrências retornados
+| 404 | Não existem ocorrências com o ID do usuário informado
+------------------
+
+### Contato Controller
+
+### Salvar contato
+
+`POST` /api/v1/contato/{id} - requer autenticação - {id} refere-se ao id do usuário em que o contato será cadastrado
+
+**Campos da Requisição**
+
+- Contato
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|:-------------:|---
+|nome | String | sim | o nome deve ter entre 3 e 200 caracteres
+|telefone | String | sim | o telefone do contato de emergência 
+|relacionamento | String | sim | deve ter entre 3 e 100 caracteres
+
+**Exemplo de corpo de requisição**
+
+```js
+{
+    "nome": "Miles Morales",
+    "telefone": "987654321",
+    "relacionamento": "Marido"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 201 | Contato salvo
+| 400 | Campos inválidos
+----
+
+### Detalhes do Contato - buscar por ID 
+
+`GET` /api/v1/contato{id} - requer autenticação
+
+**Exemplo de corpo de resposta**
+
+```js
+
+{
+    "id": 1,
+    "nome": "Miles Morales",
+    "telefone": "987654321",
+    "relacionamento": "Marido"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Dados do contato retornados
+| 404 | Não existe contato com o ID informado
+------------------
+
+### Deleta contato por ID 
+
+`DELETE` /api/v1/contato{id} - requer autenticação
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 204 | Contato deletado
+| 403 | Não autorizado
+----
+### Atualiza contato por ID 
+
+`PUT` /api/v1/contato/{id} - requer autenticação
+
+**Campos da Requisição**
+
+- Contato
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|:-------------:|---
+|nome | String | sim | o nome deve ter entre 3 e 200 caracteres
+|telefone | String | sim | o telefone do contato de emergência
+|relacionamento | String | sim | deve ter entre 3 e 100 caracteres
+
+**Exemplo de corpo de requisição**
+
+```js
+{
+    "nome": "Peter Parker",
+    "telefone": "912345678",
+    "relacionamento": "Marido"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Contato salvo
+| 400 | Campos inválidos
+----
+
+### Buscar todas por ID do usuário
+
+`GET` /api/v1/contato/user/{id} - requer autenticação
+
+**Exemplo de corpo de resposta**
+
+```js
+
+[
+    {
+        "id": 1,
+        "nome": "Peter Parker",
+        "telefone": "912345678",
+        "relacionamento": "Marido"
+    },
+    {
+        "id": 2,
+        "nome": "Miles Morales",
+        "telefone": "987654321",
+        "relacionamento": "Irmão"
+    }
+]
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 200 | Dados dos contatos retornados
+| 404 | Não existem contatos com o ID do usuário informado
+------------------
