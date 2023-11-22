@@ -739,3 +739,34 @@ MãeConecta: porque sua jornada é única, e nós estamos aqui para ajudar em ca
 | 200 | Dados dos contatos retornados
 | 404 | Não existem contatos com o ID do usuário informado
 ------------------
+
+### Chat Controller
+
+### Enviar mensagem
+
+`POST` /api/v1/chat - requer autenticação - o application.properties precisa estar preenchido com uma apiKey válida
+
+**Campos da Requisição**
+
+- Contato
+
+| campo | tipo | obrigatório | descrição 
+|-------|------|:-------------:|---
+|message | String | sim | a mensagem a ser enviada
+
+**Exemplo de corpo de requisição**
+
+```js
+{
+    "message": "Quais os principais sintomas de gravidez?"
+}
+
+```
+
+**Códigos de Respostas**
+
+| código | descrição
+|-|-
+| 201 | Mensagem enviada
+| 400 | Campos inválidos
+----
